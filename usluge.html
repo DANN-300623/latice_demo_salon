@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<meta name="description" content="Pregledajte usluge, galeriju i cenovnik salona Latice — nega lica, masaža tela, manikir i pedikir.">
+<title>Usluge i cenovnik — Latice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a href="index.html" class="logo" style="text-decoration:none;">Latice</a>
+    <div class="nav-links">
+      <a href="usluge.html">Usluge</a>
+      <a href="o-nama.html">O nama</a>
+      <a href="zakazivanje.html">Zakazivanje</a>
+    </div>
+    <a href="zakazivanje.html" class="btn-nav">Zakaži termin</a>
+  </div>
+</nav>
+
+<section class="tabs-section reveal" id="detalji">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Saznajte više</span>
+      <h2>Sve na jednom mestu</h2>
+      <p>Pregledajte usluge, pogledajte naš prostor i proverite cene.</p>
+    </div>
+
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="usluge-tab">Usluge</button>
+      <button class="tab-btn" data-tab="galerija-tab">Galerija</button>
+      <button class="tab-btn" data-tab="cenovnik-tab">Cenovnik</button>
+    </div>
+
+    <!-- TAB 1: USLUGE -->
+    <div class="tab-panel active" id="usluge-tab">
+      <div class="subservice-grid">
+        <div class="subservice-card">
+          <h4>Nega lica</h4>
+          <p>Dubinsko čišćenje, hidratacija, anti-age tretmani i personalizovana nega prema tipu kože.</p>
+        </div>
+        <div class="subservice-card">
+          <h4>Nega tela</h4>
+          <p>Piling tela, ulepšavajuće masaže, tretmani protiv celulita i relaksacija.</p>
+        </div>
+        <div class="subservice-card">
+          <h4>Nega kose</h4>
+          <p>Šišanje, farbanje, keratin tretmani i regeneracija za zdrav sjaj kose.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: GALERIJA -->
+    <div class="tab-panel" id="galerija-tab">
+      <div class="gallery-grid">
+        <div class="gallery-item">✿</div>
+        <div class="gallery-item">✿</div>
+        <div class="gallery-item">✿</div>
+        <div class="gallery-item">✿</div>
+        <div class="gallery-item">✿</div>
+        <div class="gallery-item">✿</div>
+      </div>
+    </div>
+
+    <!-- TAB 3: CENOVNIK -->
+    <div class="tab-panel" id="cenovnik-tab">
+      <div class="price-table">
+        <div class="price-group-title">Nega lica</div>
+        <div class="price-row"><span class="price-service">Klasično čišćenje lica</span><span class="price-amount">2.500 din</span></div>
+        <div class="price-row"><span class="price-service">Anti-age tretman</span><span class="price-amount">4.200 din</span></div>
+        <div class="price-row"><span class="price-service">Hidratantna maska</span><span class="price-amount">1.800 din</span></div>
+
+        <div class="price-group-title">Nega tela</div>
+        <div class="price-row"><span class="price-service">Relaks masaža (60 min)</span><span class="price-amount">3.200 din</span></div>
+        <div class="price-row"><span class="price-service">Anticelulit tretman</span><span class="price-amount">3.800 din</span></div>
+        <div class="price-row"><span class="price-service">Piling tela</span><span class="price-amount">2.200 din</span></div>
+
+        <div class="price-group-title">Nega kose</div>
+        <div class="price-row"><span class="price-service">Šišanje</span><span class="price-amount">1.500 din</span></div>
+        <div class="price-row"><span class="price-service">Farbanje</span><span class="price-amount">3.500 din</span></div>
+        <div class="price-row"><span class="price-service">Keratin tretman</span><span class="price-amount">6.000 din</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="logo">Latice</div>
+    <p>Kneza Miloša 12, Beograd &nbsp;·&nbsp; +381 60 123 4567 &nbsp;·&nbsp; info@latice.rs</p>
+    <div class="foot-bottom">© 2026 Latice. Sva prava zadržana.</div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
