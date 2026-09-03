@@ -1,4 +1,8 @@
-  // Scroll-reveal: sekcije se lagano pojave kad uđu u vidno polje
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  menu.classList.toggle('open');
+}  
+// Scroll-reveal: sekcije se lagano pojave kad uđu u vidno polje
   const revealElements = document.querySelectorAll('.reveal');
 
   const revealObserver = new IntersectionObserver(function(entries) {

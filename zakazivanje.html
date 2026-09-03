@@ -15,12 +15,25 @@
 <nav>
   <div class="container">
     <a href="index.html" class="logo" style="text-decoration:none;">Latice</a>
+
     <div class="nav-links">
       <a href="usluge.html">Usluge</a>
       <a href="o-nama.html">O nama</a>
       <a href="zakazivanje.html">Zakazivanje</a>
     </div>
+
     <a href="zakazivanje.html" class="btn-nav">Zakaži termin</a>
+
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Otvori meni">
+      ☰
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="usluge.html">Usluge</a>
+    <a href="o-nama.html">O nama</a>
+    <a href="zakazivanje.html">Zakazivanje</a>
+    <a href="zakazivanje.html" class="mobile-booking">Zakaži termin</a>
   </div>
 </nav>
 
