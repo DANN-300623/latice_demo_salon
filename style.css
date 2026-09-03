@@ -498,3 +498,302 @@
     * { transition: none !important; animation: none !important; }
     .reveal { opacity: 1; transform: none; }
   }
+/* =========================================================
+   MOBILE RESPONSIVE — LATICE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  /* ---------- OPŠTE ---------- */
+
+  .container {
+    width: 100%;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  /* ---------- NAV ---------- */
+
+  nav .container {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .logo {
+    font-size: 26px;
+  }
+
+  .btn-nav {
+    padding: 9px 16px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  /* ---------- HERO ---------- */
+
+  .hero {
+    padding: 75px 0 90px;
+    min-height: auto;
+  }
+
+  .hero-content {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-size: clamp(40px, 12vw, 54px);
+    line-height: 1.05;
+    margin-bottom: 20px;
+  }
+
+  .hero p {
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+  }
+
+  .btn-primary {
+    padding: 14px 28px;
+    font-size: 14px;
+  }
+
+  .blob1 {
+    width: 260px;
+    height: 260px;
+    right: -130px;
+    top: -80px;
+  }
+
+  .blob2 {
+    width: 160px;
+    height: 160px;
+    left: -80px;
+    bottom: -50px;
+  }
+
+  /* ---------- SEKCIJE ---------- */
+
+  .services,
+  .tabs-section,
+  .booking,
+  .about {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+
+  .section-head {
+    margin-bottom: 40px;
+    padding: 0 5px;
+  }
+
+  .section-head h2 {
+    font-size: 34px;
+    line-height: 1.1;
+  }
+
+  .section-head p {
+    font-size: 15px;
+  }
+
+  /* ---------- SERVICES ---------- */
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .service-card {
+    padding: 28px 22px;
+  }
+
+  .service-card h3 {
+    font-size: 22px;
+  }
+
+  /* ---------- TABS ---------- */
+
+  .tab-nav {
+    gap: 8px;
+    margin-bottom: 35px;
+  }
+
+  .tab-btn {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+
+  .subservice-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .subservice-card {
+    padding: 24px 20px;
+  }
+
+  /* ---------- GALERIJA ---------- */
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .gallery-item {
+    border-radius: 12px;
+    font-size: 30px;
+  }
+
+  /* ---------- CENOVNIK ---------- */
+
+  .price-table {
+    border-radius: 16px;
+  }
+
+  .price-row {
+    padding: 14px 16px;
+    gap: 8px;
+  }
+
+  .price-service {
+    font-size: 14px;
+    max-width: 75%;
+  }
+
+  .price-amount {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .price-group-title {
+    font-size: 20px;
+    padding: 18px 16px 8px;
+  }
+
+  /* ---------- BOOKING ---------- */
+
+  .booking-box {
+    width: 100%;
+    padding: 30px 20px;
+    border-radius: 20px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .form-group input,
+  .form-group select {
+    font-size: 16px;
+    padding: 13px 14px;
+  }
+
+  .btn-submit {
+    padding: 15px;
+  }
+
+  /* ---------- ABOUT ---------- */
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .about-visual {
+    aspect-ratio: 16 / 10;
+    border-radius: 20px;
+  }
+
+  .about-visual::after {
+    font-size: 100px;
+  }
+
+  .about-text h2 {
+    font-size: 32px;
+    line-height: 1.15;
+  }
+
+  .about-text p {
+    font-size: 15px;
+  }
+
+  /* ---------- MAPA ---------- */
+
+  .map-section {
+    padding: 40px 0 0;
+  }
+
+  .map-section iframe {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+  }
+
+  /* ---------- FOOTER ---------- */
+
+  footer {
+    padding: 45px 0 25px;
+  }
+
+  footer p {
+    font-size: 13px;
+    line-height: 1.8;
+    padding: 0 5px;
+  }
+
+  footer .foot-bottom {
+    font-size: 11px;
+  }
+}
+
+
+/* ---------- VERY SMALL PHONES ---------- */
+
+@media (max-width: 380px) {
+
+  .container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .logo {
+    font-size: 24px;
+  }
+
+  .btn-nav {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .hero {
+    padding-top: 60px;
+    padding-bottom: 75px;
+  }
+
+  .hero h1 {
+    font-size: 40px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  .btn-primary {
+    padding: 13px 24px;
+  }
+
+  .gallery-grid {
+    gap: 8px;
+  }
+
+  .price-service {
+    max-width: 70%;
+  }
+}
