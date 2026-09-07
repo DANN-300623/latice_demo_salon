@@ -47,8 +47,34 @@ function toggleMobileMenu() {
     const datumInput = document.getElementById('datum');
     const vremeSelect = document.getElementById('vreme');
 
+    // Ovde ide Web app URL iz Google Apps Script-a, iz NALOGA SALONA
+    // (Extensions > Apps Script > Deploy > Web app -> kopiraj URL ovde)
+    // Premešteno na vrh (bilo je niže) jer nam sad treba i ranije u fajlu
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziU3JDJI1eDoy1NbJKYTI-_kO9yzcu-ql4o2cfiRkZHtMtNJD9Xj0e3P1hO7VqA9DG/exec';
+
     // Ne dozvoli biranje datuma u prošlosti
     datumInput.min = new Date().toISOString().split('T')[0];
+
+    // Ograničenje koliko UNAPRED se sme zakazivati — pitamo skriptu koji
+    // je trenutni limit (podesivo kroz admin panel), umesto da taj broj
+    // duplira na dva mesta. Dok se odgovor ne vrati, koristi se 2 meseca
+    // kao razuman privremeni podrazumevani limit.
+    var privremeniMaxDatum = new Date();
+    privremeniMaxDatum.setMonth(privremeniMaxDatum.getMonth() + 2);
+    datumInput.max = privremeniMaxDatum.toISOString().split('T')[0];
+
+    fetch(SCRIPT_URL + '?action=javnaPodesavanja')
+      .then(function(response) { return response.json(); })
+      .then(function(data) {
+        if (data.maxMeseciUnapred) {
+          var maxDatum = new Date();
+          maxDatum.setMonth(maxDatum.getMonth() + data.maxMeseciUnapred);
+          datumInput.max = maxDatum.toISOString().split('T')[0];
+        }
+      })
+      .catch(function() {
+        // Ako ovo ne uspe, ostaje privremeni limit od 2 meseca postavljen iznad
+      });
 
     // Popuni padajući meni terminima na svakih 30 minuta, 08:00-20:00
     (function populateTimeSlots() {
@@ -113,10 +139,6 @@ function toggleMobileMenu() {
           console.log('Ne mogu da proverim dostupnost termina.', err);
         });
     }
-
-    // Ovde ide Web app URL iz Google Apps Script-a, iz NALOGA SALONA
-    // (Extensions > Apps Script > Deploy > Web app -> kopiraj URL ovde)
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziU3JDJI1eDoy1NbJKYTI-_kO9yzcu-ql4o2cfiRkZHtMtNJD9Xj0e3P1hO7VqA9DG/exec';
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
