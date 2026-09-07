@@ -61,8 +61,8 @@
         </div>
 
         <div class="form-group">
-          <label for="email">Email (opciono, za potvrdu u kalendaru)</label>
-          <input type="email" id="email" name="Email">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="Email" required>
         </div>
 
         <div class="form-group">
@@ -91,6 +91,13 @@
         <div class="form-group">
           <label for="napomena">Napomena (opciono)</label>
           <textarea id="napomena" name="Poruka klijenta" rows="3" placeholder="Npr. želite da spojite više tretmana, ili imate neko pitanje..."></textarea>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label for="pristanak">
+            <input type="checkbox" id="pristanak" name="Pristanak" required>
+            <span>Slažem se sa obradom mojih podataka u svrhu zakazivanja termina. Pogledajte <a href="politika-privatnosti.html" target="_blank">Politiku privatnosti</a>.</span>
+          </label>
         </div>
 
         <button type="submit" class="btn-submit">Potvrdi zakazivanje</button>
