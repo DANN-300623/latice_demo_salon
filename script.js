@@ -1,6 +1,8 @@
 function toggleMobileMenu() {
   const menu = document.getElementById('mobileMenu');
+  const btn = document.getElementById('mobileMenuBtn');
   menu.classList.toggle('open');
+  btn.classList.toggle('open');
 }  
 // Scroll-reveal: sekcije se lagano pojave kad uđu u vidno polje
   const revealElements = document.querySelectorAll('.reveal');
@@ -132,26 +134,75 @@ function toggleMobileMenu() {
       submitBtn.textContent = 'Slanje...';
 
       const formData = new FormData(form);
+      const klijentUneoEmail = !!document.getElementById('email').value;
 
-      // mode: 'no-cors' je neophodan za Google Apps Script pozive iz browsera —
-      // to znači da ne možemo pročitati odgovor, pa optimistički prikazujemo
-      // potvrdu čim zahtev uspešno ode (bez greške u mreži)
       fetch(SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors',
         body: formData
+        // BEZ mode: 'no-cors' — sad ČITAMO pravi odgovor skripte,
+        // umesto da "šaljemo naslepo" i uvek prikazujemo "uspešno"
       })
-        .then(function() {
-          confirmationMsg.style.display = 'block';
-          form.reset();
-          confirmationMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        .then(function(response) { return response.json(); })
+        .then(function(data) {
+
+          if (data.result === 'Odbijeno (zauzeto)') {
+            prikaziPoruku(
+              'Nažalost, taj termin je upravo zauzet. Izaberite drugi termin ili nas pozovite telefonom.',
+              'greska'
+            );
+
+          } else if (data.result === 'Na čekanju') {
+
+            if (!data.mailVlasniku) {
+              // Rezervacija je upisana, ali vlasnik NIJE obavešten —
+              // klijent mora da zna da nešto proveri, ne da misli da je sve gotovo
+              prikaziPoruku(
+                'Vaš zahtev je zabeležen, ali nismo uspeli automatski da obavestimo salon. ' +
+                'Molimo pozovite nas telefonom da potvrdite termin, ili pokušajte ponovo za par minuta.',
+                'upozorenje'
+              );
+
+            } else if (klijentUneoEmail && !data.mailKlijentu) {
+              prikaziPoruku(
+                'Vaš zahtev je uspešno poslat salonu i čeka potvrdu! ' +
+                'Nismo uspeli da vam pošaljemo mail potvrde — proverite email adresu, ili nas kontaktirajte ako ne dobijete odgovor uskoro.',
+                'upozorenje'
+              );
+
+            } else {
+              prikaziPoruku(
+                'Hvala! Vaš zahtev je poslat — kontaktiraćemo vas uskoro za potvrdu.',
+                'uspeh'
+              );
+            }
+
+            form.reset();
+
+          } else {
+            prikaziPoruku(
+              'Došlo je do greške pri slanju. Pokušajte ponovo ili nas pozovite telefonom.',
+              'greska'
+            );
+          }
         })
         .catch(function() {
-          alert('Greška pri slanju. Proverite internet konekciju.');
+          prikaziPoruku(
+            'Nismo uspeli da pošaljemo zahtev — proverite internet konekciju, ili nas kontaktirajte telefonom.',
+            'greska'
+          );
         })
         .finally(function() {
           submitBtn.disabled = false;
           submitBtn.textContent = 'Potvrdi zakazivanje';
         });
     });
+
+    // Prikazuje poruku i menja joj boju zavisno od tipa
+    // ('uspeh' = zeleno, 'upozorenje' = žuto, 'greska' = crveno)
+    function prikaziPoruku(tekst, tip) {
+      confirmationMsg.textContent = tekst;
+      confirmationMsg.className = 'confirmation ' + tip;
+      confirmationMsg.style.display = 'block';
+      confirmationMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   }

@@ -419,6 +419,22 @@
     font-size: 15px;
   }
 
+  /* Tri stanja poruke potvrde — sad kad JS proverava STVARAN uspeh slanja */
+  .confirmation.uspeh {
+    background: rgba(169, 185, 154, 0.15);
+    color: #5c6b4d;
+  }
+
+  .confirmation.upozorenje {
+    background: rgba(217, 143, 138, 0.15);
+    color: #8B4038;
+  }
+
+  .confirmation.greska {
+    background: rgba(198, 40, 40, 0.1);
+    color: #C62828;
+  }
+
   /* ---------- ABOUT ---------- */
   .about { padding: 100px 0; }
 
@@ -810,14 +826,38 @@
 @media (max-width: 768px) {
 
   .mobile-menu-btn {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
     background: none;
     border: none;
-    font-size: 28px;
-    color: var(--plum);
     cursor: pointer;
-    line-height: 1;
     padding: 4px;
+  }
+
+  .mobile-menu-btn span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--plum);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.2s ease;
+  }
+
+  .mobile-menu-btn.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .mobile-menu-btn.open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-menu-btn.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
   }
 
   .mobile-menu {
