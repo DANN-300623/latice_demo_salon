@@ -375,7 +375,8 @@
   }
 
   .form-group input,
-  .form-group select {
+  .form-group select,
+  .form-group textarea {
     width: 100%;
     padding: 13px 16px;
     border-radius: 12px;
@@ -386,8 +387,14 @@
     color: var(--plum);
   }
 
+  .form-group textarea {
+    resize: vertical;
+    min-height: 70px;
+  }
+
   .form-group input:focus,
-  .form-group select:focus {
+  .form-group select:focus,
+  .form-group textarea:focus {
     outline: 2px solid var(--rose);
     outline-offset: 1px;
   }
@@ -706,7 +713,8 @@
   }
 
   .form-group input,
-  .form-group select {
+  .form-group select,
+  .form-group textarea {
     font-size: 16px;
     padding: 13px 14px;
   }
