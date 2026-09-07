@@ -55,10 +55,36 @@ function toggleMobileMenu() {
     // Ne dozvoli biranje datuma u prošlosti
     datumInput.min = new Date().toISOString().split('T')[0];
 
-    // Ograničenje koliko UNAPRED se sme zakazivati — pitamo skriptu koji
-    // je trenutni limit (podesivo kroz admin panel), umesto da taj broj
-    // duplira na dva mesta. Dok se odgovor ne vrati, koristi se 2 meseca
-    // kao razuman privremeni podrazumevani limit.
+    // Funkcija koja generiše opcije u padajućem meniju za vreme, na
+    // osnovu STVARNIH podešavanja (radno vreme, jedna ili dve smene)
+    function popuniTermine(pocetak, kraj, dvokratno, pocetak2, kraj2) {
+      vremeSelect.innerHTML = '<option value="">-- Izaberite --</option>';
+
+      const smene = [{ p: pocetak, k: kraj }];
+      if (dvokratno) smene.push({ p: pocetak2, k: kraj2 });
+
+      smene.forEach(function(smena) {
+        for (let h = smena.p; h <= smena.k; h++) {
+          for (let m = 0; m < 60; m += 30) {
+            if (h === smena.k && m > 0) break;
+            const hh = String(h).padStart(2, '0');
+            const mm = String(m).padStart(2, '0');
+            const option = document.createElement('option');
+            option.value = hh + ':' + mm;
+            option.textContent = hh + ':' + mm;
+            vremeSelect.appendChild(option);
+          }
+        }
+      });
+    }
+
+    // Odmah popuni sa razumnim podrazumevanim vrednostima (08-20, jedna
+    // smena), dok čekamo pravi odgovor sa servera — da meni ne bude prazan
+    popuniTermine(8, 20, false);
+
+    // Ograničenje koliko UNAPRED se sme zakazivati, i STVARNO radno vreme
+    // (uključujući dvokratno, ako je podešeno) — pitamo skriptu, umesto
+    // da te brojeve dupliramo na dva mesta (sajt i admin panel)
     var privremeniMaxDatum = new Date();
     privremeniMaxDatum.setMonth(privremeniMaxDatum.getMonth() + 2);
     datumInput.max = privremeniMaxDatum.toISOString().split('T')[0];
@@ -71,27 +97,19 @@ function toggleMobileMenu() {
           maxDatum.setMonth(maxDatum.getMonth() + data.maxMeseciUnapred);
           datumInput.max = maxDatum.toISOString().split('T')[0];
         }
+        if (data.radnoVremePocetak !== undefined) {
+          popuniTermine(
+            data.radnoVremePocetak,
+            data.radnoVremeKraj,
+            !!data.dvokratno,
+            data.radnoVremePocetak2,
+            data.radnoVremeKraj2
+          );
+        }
       })
       .catch(function() {
-        // Ako ovo ne uspe, ostaje privremeni limit od 2 meseca postavljen iznad
+        // Ako ovo ne uspe, ostaju podrazumevane vrednosti postavljene iznad
       });
-
-    // Popuni padajući meni terminima na svakih 30 minuta, 08:00-20:00
-    (function populateTimeSlots() {
-      const startHour = 8;
-      const endHour = 20;
-      for (let h = startHour; h <= endHour; h++) {
-        for (let m = 0; m < 60; m += 30) {
-          if (h === endHour && m > 0) break; // ne ide posle 20:00
-          const hh = String(h).padStart(2, '0');
-          const mm = String(m).padStart(2, '0');
-          const option = document.createElement('option');
-          option.value = hh + ':' + mm;
-          option.textContent = hh + ':' + mm;
-          vremeSelect.appendChild(option);
-        }
-      }
-    })();
 
     // Odmah upozori ako je izabrana nedelja (ne čekaj submit)
     datumInput.addEventListener('change', function() {
@@ -170,6 +188,18 @@ function toggleMobileMenu() {
           if (data.result === 'Odbijeno (zauzeto)') {
             prikaziPoruku(
               'Nažalost, taj termin je upravo zauzet. Izaberite drugi termin ili nas pozovite telefonom.',
+              'greska'
+            );
+
+          } else if (data.result === 'Odbijeno (predaleko)') {
+            prikaziPoruku(
+              'Nažalost, ne možemo zakazati termine toliko unapred. Izaberite bliži datum.',
+              'greska'
+            );
+
+          } else if (data.result === 'Odbijeno (van radnog vremena)') {
+            prikaziPoruku(
+              'Izabrano vreme je van našeg radnog vremena. Izaberite drugo vreme.',
               'greska'
             );
 
