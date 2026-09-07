@@ -52,6 +52,10 @@ function toggleMobileMenu() {
     // Premešteno na vrh (bilo je niže) jer nam sad treba i ranije u fajlu
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziU3JDJI1eDoy1NbJKYTI-_kO9yzcu-ql4o2cfiRkZHtMtNJD9Xj0e3P1hO7VqA9DG/exec';
 
+    // Podrazumevano samo nedelja (0), dok se ne učita STVARNA lista sa
+    // servera (podesivo kroz admin panel)
+    let neradniDaniLista = [0];
+
     // Ne dozvoli biranje datuma u prošlosti
     datumInput.min = new Date().toISOString().split('T')[0];
 
@@ -106,16 +110,19 @@ function toggleMobileMenu() {
             data.radnoVremeKraj2
           );
         }
+        if (data.neradniDani !== undefined) {
+          neradniDaniLista = String(data.neradniDani).split(',').map(function(s) { return parseInt(s.trim(), 10); });
+        }
       })
       .catch(function() {
         // Ako ovo ne uspe, ostaju podrazumevane vrednosti postavljene iznad
       });
 
-    // Odmah upozori ako je izabrana nedelja (ne čekaj submit)
+    // Odmah upozori ako je izabran neradan dan (ne čekaj submit)
     datumInput.addEventListener('change', function() {
       const izabraniDan = new Date(datumInput.value + 'T00:00:00').getDay();
-      if (izabraniDan === 0) {
-        alert('Nedeljom ne radimo. Izaberite drugi dan.');
+      if (neradniDaniLista.indexOf(izabraniDan) !== -1) {
+        alert('Tog dana ne radimo. Izaberite drugi dan.');
         datumInput.value = '';
         return;
       }
@@ -145,6 +152,16 @@ function toggleMobileMenu() {
       fetch(url)
         .then(function(response) { return response.json(); })
         .then(function(data) {
+          if (data.neradanDan) {
+            // Ceo dan je neradan — zasivi SVE opcije, ne samo pojedinačne termine
+            Array.from(vremeSelect.options).forEach(function(opt) {
+              if (opt.value) {
+                opt.disabled = true;
+                opt.textContent = opt.value + ' (neradan dan)';
+              }
+            });
+            return;
+          }
           (data.zauzeto || []).forEach(function(vreme) {
             const opt = Array.from(vremeSelect.options).find(function(o) { return o.value === vreme; });
             if (opt) {
@@ -161,12 +178,12 @@ function toggleMobileMenu() {
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      // Dvostruka provera nedelje pri slanju
+      // Dvostruka provera neradnog dana pri slanju
       const datumVal = document.getElementById('datum').value;
       const izabraniDan = new Date(datumVal + 'T00:00:00').getDay();
 
-      if (izabraniDan === 0) {
-        alert('Nedeljom ne radimo. Izaberite drugi dan.');
+      if (neradniDaniLista.indexOf(izabraniDan) !== -1) {
+        alert('Tog dana ne radimo. Izaberite drugi dan.');
         return;
       }
 
